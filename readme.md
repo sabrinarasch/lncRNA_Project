@@ -28,14 +28,14 @@ There are two groups of the project and this analysis belongs to group 1. The fi
 1. Read quality and statistics:
     * How many reads do you have for each replicate? How is the quality of these reads?
     * Software: FASTQC
-    * Script: QC.sh
+    * Script: QC.slurm
     * Input: fastq (zip) files of reads (RawData)
     * Outputs: results of fastQC, text file with number reads for confirmation (1_QC_Results)
 2. Read mapping
     * What are the alignment rates for your samples?
     * Human genome version hg38/GRCh38
     * Software: HISAT2 or STAR
-    * Script: 
+    * Script: RNAseq_hisat2_mapping.slurm
     * Input: 
     * Output: BAM file for every replicate
 3. Transcriptome assembly

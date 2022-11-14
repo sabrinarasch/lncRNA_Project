@@ -9,10 +9,10 @@
 #SBATCH --output=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/Output/output_read_count_%j.o
 #SBATCH --error=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/Error/error_read_count_%j.e
 
-#Add the modules needed for the quality control
+#Add the modules
 module add UHTS/Quality_control/fastqc/0.11.9
 
-#Make directories and put them into variables
+#Make directories and variables
 course_directory=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch
 
 mkdir $course_directory/RawData
