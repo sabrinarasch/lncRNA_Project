@@ -24,7 +24,8 @@ ref_dir=/data/courses/rnaseq_course/lncRNAs/Project1/references
 ref_genome=${ref_dir}/*.fa
 genome_name=GRCh38_genome
 
-out_dir=${parent_dir}/2_Mapping_Results/hisat2_out
+out_dir=${course_dir}/2_Mapping_Results
+mkdir ${out_dir}
 out_file=${out_dir}/${cell_line}_hisat2.sam
 
 #Build reference hisat2 index (after once doing this it can be commented)
