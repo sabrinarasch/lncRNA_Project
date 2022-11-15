@@ -6,8 +6,8 @@
 #SBATCH --job-name=Hisat2_mapping
 #SBATCH --mail-user=sabrina.rasch@students.unibe.ch
 #SBATCH --mail-type=begin,end,fail
-#SBATCH --output=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/Output/output_read_count_%j.o
-#SBATCH --error=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/Error/error_read_count_%j.e
+#SBATCH --output=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/Output/output_hisat2_mapping_%j.o
+#SBATCH --error=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/Error/error_hisat2_mapping_%j.e
 
 #Add the modules
 module add UHTS/Aligner/hisat/2.2.1
