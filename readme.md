@@ -4,18 +4,24 @@ Sabrina Rasch (sabrina.rasch@student.unibe.ch)
 
 This is a project of the course *RNA sequnecing* (467713) of the University of Bern. It takes place in the Fall Semester 2022.
 
-There are two groups of the project and this analysis belongs to group 1. The files that are analysed are:
+There are two groups of the project and this analysis belongs to group 1. Group 1 analyses the holoclonal and parental replicates.
+
+Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch**
 
 ## Files
 
-* Holoclonal = 1.1, 1.2, 1.5
+* Holoclonal
+    * Path: **/data/courses/rnaseq_course/lncRNAs/fastq/1\***
+    * Replicates: 1.1, 1.2, 1.5
     * 1_1_L3_R1_001_ij43KLkHk1vK.fastq.gz
     * 1_1_L3_R2_001_qyjToP2TB6N7.fastq.gz
     * 1_2_L3_R1_001_DnNWKUYhfc9S.fastq.gz
     * 1_2_L3_R2_001_SNLaVsTQ6pwl.fastq.gz
     * 1_5_L3_R1_001_iXvvRzwmFxF3.fastq.gz
     * 1_5_L3_R2_001_iXCMrktKyEh0.fastq.gz
-* Parental = P1, P2, P3
+* Parental
+    * Path: **/data/courses/rnaseq_course/lncRNAs/fastq/P\***
+    * Replicates: P1, P2, P3
     * P1_L3_R1_001_9L0tZ86sF4p8.fastq.gz
     * P1_L3_R2_001_yd9NfV9WdvvL.fastq.gz
     * P2_L3_R2_001_06FRMIIGwpH6.fastq.gz
@@ -29,15 +35,14 @@ There are two groups of the project and this analysis belongs to group 1. The fi
     * How many reads do you have for each replicate? How is the quality of these reads?
     * Software: FASTQC
     * Script: QC.slurm
-    * Input: fastq (zip) files of reads (RawData)
-    * Outputs: results of fastQC, text file with number reads for confirmation (1_QC_Results)
+    * Input: \*.fastq.gz files of reads (**RawData**)
+    * Outputs: \*_fastqc.html/\*_fastqc.zip, text file with number reads (**1_QC_Results**)
 2. Read mapping
-    * What are the alignment rates for your samples?
-    * Human genome version hg38/GRCh38
-    * Software: HISAT2 or STAR
-    * Script: RNAseq_hisat2_mapping.slurm
-    * Input: 
-    * Output: BAM file for every replicate
+    * What are the alignment rates for your samples? Human genome version hg38/GRCh38
+    * Software: HISAT2 or STAR (I used HISAT2)
+    * Script: Hisat2_mapping.slurm
+    * Input: Hisat index files (**/data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2**)
+    * Output: SAM and BAM file for every replicate (**2_Mapping_Results**)
 3. Transcriptome assembly
     * How many exons, transcripts and genes are in your meta-assembly? How many of these are novel, i.e. do not have an associated GENCODE identifier? How many transcripts and genes are composed of just a single exon?
     * Software: StringTie or Scallop
