@@ -15,22 +15,26 @@ module add UHTS/Quality_control/fastqc/0.11.9
 #Make directories and variables
 course_directory=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch
 
-mkdir $course_directory/RawData
-raw_data_direcotry=$course_directory/RawData
+mkdir ${course_directory}/RawData
+raw_data_direcotry=${course_directory}/RawData
 
-mkdir $course_directory/1_QC_Results
-QC_directory=$course_directory/1_QC_Results
+mkdir ${course_directory}/1_QC_Results
+QC_directory=${course_directory}/1_QC_Results
 
 #Make a symbolic link to the raw data into the just created directory
-ln -s /data/courses/rnaseq_course/lncRNAs/fastq/1* $raw_data_direcotry
-ln -s /data/courses/rnaseq_course/lncRNAs/fastq/P* $raw_data_direcotry
+ln -s /data/courses/rnaseq_course/lncRNAs/fastq/1* ${raw_data_direcotry}
+ln -s /data/courses/rnaseq_course/lncRNAs/fastq/P* ${raw_data_direcotry}
 
 #Make the quality analysis
-fastqc -t 2 -o $QC_directory $raw_data_direcotry/*.fastq.gz
+fastqc -t 2 -o ${QC_directory} ${raw_data_direcotry}/*.fastq.gz
+#Options entered here are:
+    #"-t 2": use of 2 threads
+    #"-o": output files in the specified output directory
+        #"${QC_directory ${raw_data_direcotry/*.fastq.gz": output directory with file name
 
 #Get the number of reads for the different files
 for file in $(ls -1 /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/*.fastq.gz)
 do
-    nr_reads=$(zcat $file | grep -E '^@' | wc -l)
-    echo "$(basename $file) has $nr_reads reads." >> $QC_directory/NR_reads.txt
+    nr_reads=$(zcat ${file} | grep -E '^@' | wc -l)
+    echo "$(basename ${file}) has ${nr_reads} reads." >> ${QC_directory}/NR_reads.txt
 done
