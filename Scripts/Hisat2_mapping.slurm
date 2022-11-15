@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #SBATCH --cpus-per-task=2
-#SBATCH --time=2:00:00
+#SBATCH --time=05:00:00
 #SBATCH --mem=40G
-#SBATCH --job-name=QC
+#SBATCH --job-name=Hisat2_mapping
 #SBATCH --mail-user=sabrina.rasch@students.unibe.ch
 #SBATCH --mail-type=begin,end,fail
 #SBATCH --output=/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/Output/output_read_count_%j.o
