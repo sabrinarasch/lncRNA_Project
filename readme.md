@@ -42,7 +42,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * Software: HISAT2 or STAR (I used HISAT2)
     * Script: Hisat2_mapping.slurm
     * Input: Hisat index files (**/data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2**)
-    * Output: SAM file (**2_Mapping_Results/\*hisat2.sam**), text files (changed error files from Hisat2_mapping.slurm script) (**2_Mapping_Results/\*hisat2_error.txt**)
+    * Output: SAM file (**2_Mapping_Results/*cell_line*/*cell_line*_hisat2.sam**), text files (changed error files from Hisat2_mapping.slurm script) (**2_Mapping_Results/*cell_line*/*cell_line*_hisat2_error.txt**), BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
 3. Transcriptome assembly
     * How many exons, transcripts and genes are in your meta-assembly? How many of these are novel, i.e. do not have an associated GENCODE identifier? How many transcripts and genes are composed of just a single exon?
     * Software: StringTie or Scallop

@@ -11,6 +11,7 @@
 
 #Add the modules
 module add UHTS/Aligner/hisat/2.2.1
+module add UHTS/Analysis/samtools/1.10
 
 #Make directories and variables
 cell_line=$1
@@ -24,9 +25,16 @@ ref_dir=/data/courses/rnaseq_course/lncRNAs/Project1/references
 ref_genome=${ref_dir}/*.fa
 genome_name=GRCh38_genome
 
-out_dir=${course_dir}/2_Mapping_Results
-mkdir ${out_dir}
-out_file=${out_dir}/${cell_line}_hisat2.sam
+hisat2_out_dir=${course_dir}/2_Mapping_Results
+mkdir ${hisat2_out_dir}
+cell_line_dir=${hisat2_out_dir}/${cell_line}
+mkdir ${cell_line_dir}
+hisat2_out_file=${cell_line_dir}/${cell_line}_hisat2.sam
+
+res_unsorted=${cell_line_dir}/${cell_line}_unsorted.bam
+res_sorted=${cell_line_dir}/${cell_line}_sorted.bam
+
+samindex=${hisat2_out_dir}/${genome_name}.fai
 
 #Build reference hisat2 index (after once doing this it can be commented)
 # hisat2-build -p 16 ${ref_genome} ${genome_name}
@@ -38,7 +46,7 @@ out_file=${out_dir}/${cell_line}_hisat2.sam
 ref_hisat2=${ref_dir}/${genome_name}
 
 #Do the mapping
-hisat2 -p 8 --dta -x ${ref_hisat2} -1 ${sample_fwd} -2 ${sample_bwd} -S ${out_file}
+hisat2 -p 8 --dta -x ${ref_hisat2} -1 ${sample_fwd} -2 ${sample_bwd} -S ${hisat2_out_file}
 #Options entered here are:
     #"-p 8": use of 8 threads
     #"–dta": generate output SAM files that can be directly read into StringTie
@@ -47,4 +55,23 @@ hisat2 -p 8 --dta -x ${ref_hisat2} -1 ${sample_fwd} -2 ${sample_bwd} -S ${out_fi
     #"-1/-2": are used to denote our forward and backward samples in a paired-end alignment
         #"${sample_fwd}/${sample_bwd}": file of forward and backward sample
     #"-S": output in SAM format
-        #"${out_file}": file where the SAM output should go
+        #"${hisat2_out_file}": file where the SAM output should go
+
+#Output is a SAM file but we want a BAM file, we have to convert them. 
+
+#Index reference for samtools (after once doing this it can be commented)
+# samtools faidx ${ref_genome} > ${samindex}
+
+#Convert SAM to BAM
+samtools view -b -t ${samindex} ${hisat2_out_file} > ${res_unsorted}
+#Options entered here are:
+    #"-b": output BAM
+    #"-t": FILE listing reference names and lengths
+
+#Sort BAM
+samtools sort -o ${res_sorted} ${res_unsorted}
+#Options entered here are:
+    #"-o":Write final output to FILE rather than standard output
+
+#Index BAM
+samtools index ${res_sorted}
