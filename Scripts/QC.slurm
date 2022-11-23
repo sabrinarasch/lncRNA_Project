@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=5
 #SBATCH --mem-per-cpu=25G
 #SBATCH --time=02:00:00
 #SBATCH --job-name=QC

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=5
 #SBATCH --time=05:00:00
 #SBATCH --mem=40G
 #SBATCH --job-name=Hisat2_mapping
