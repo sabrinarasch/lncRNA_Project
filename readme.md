@@ -44,11 +44,16 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * Input: Hisat index files (**/data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2**)
     * Output: SAM file (**2_Mapping_Results/*cell_line*/*cell_line*_hisat2.sam**), text files (changed error files from Hisat2_mapping.slurm script) (**2_Mapping_Results/*cell_line*/*cell_line*_hisat2_error.txt**), BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
 3. Transcriptome assembly
-    * How many exons, transcripts and genes are in your meta-assembly? How many of these are novel, i.e. do not have an associated GENCODE identifier? How many transcripts and genes are composed of just a single exon?
-    * Software: StringTie or Scallop
-    * Script:
-    * Input: 
-    * Output: One meta-assembly GTF format file
+    1. What is the direction of the reads? Important for StringTie parameters.
+        * Software: RSeQC
+        * Script: Strand_Direction.slurm
+        * Input: Reference in bed format (**RawData/hg38_GENCODE.v38.bed**) and BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
+        * Output: Text files (**Strand_Direction/*cell_line*_direction.txt**)
+    2. How many exons, transcripts and genes are in your meta-assembly? How many of these are novel, i.e. do not have an associated GENCODE identifier? How many transcripts and genes are composed of just a single exon?
+        * Software: StringTie or Scallop
+        * Script: StringTie_assembly.slurm
+        * Input: GTF of reference (**/data/courses/rnaseq_course/lncRNAs/Project1/references/gencode.v21.chr_patch_hapl_scaff.annotation.gtf**) and BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
+        * Output: GTF files for each cell line () and one meta-assembly GTF format file ()
 4. Quantification
     * What units of expression are you using? Does the entire expression level across all genes add up to the expected amount? How many transcripts and genes did you detect? How many novel transcripts and genes did you detect?
     * Software: htseq-count or Kallisto
