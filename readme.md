@@ -53,7 +53,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * Software: StringTie or Scallop
         * Script: StringTie_assembly.slurm
         * Input: GTF of reference (**/data/courses/rnaseq_course/lncRNAs/Project1/references/gencode.v21.chr_patch_hapl_scaff.annotation.gtf**) and BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
-        * Output: GTF files for each cell line () and one meta-assembly GTF format file ()
+        * Output: GTF files for each cell line (**3_StringTie_Results/*cell_line*.gtf**), one meta-assembly GTF format file (**3_StringTie_Results/stringtie_merged.gtf**), gene abundance tables for each cell line (**3_StringTie_Results/*cell_line*_gene_abund.tab**), text file with the counts for the questions above (**3_StringTie_Results/counting.txt**)
 4. Quantification
     * What units of expression are you using? Does the entire expression level across all genes add up to the expected amount? How many transcripts and genes did you detect? How many novel transcripts and genes did you detect?
     * Software: htseq-count or Kallisto
