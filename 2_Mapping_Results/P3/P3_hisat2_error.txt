@@ -1,4 +1,3 @@
-mkdir: cannot create directory ‘/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/2_Mapping_Results’: File exists
 33414876 reads; of these:
   33414876 (100.00%) were paired; of these:
     1564941 (4.68%) aligned concordantly 0 times
