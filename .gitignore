@@ -37,3 +37,24 @@
 3_2_StringTie_Results/stringtie_merged.gtf
 
 4_Kallisto_Results/kallisto_index.idx
+4_Kallisto_Results/1_1/abundance.h5
+4_Kallisto_Results/1_1/abundance.tsv
+4_Kallisto_Results/1_1/run_info.json
+4_Kallisto_Results/1_2/abundance.h5
+4_Kallisto_Results/1_2/abundance.tsv
+4_Kallisto_Results/1_2/run_info.json
+4_Kallisto_Results/1_5/abundance.h5
+4_Kallisto_Results/1_5/abundance.tsv
+4_Kallisto_Results/1_5/run_info.json
+4_Kallisto_Results/P1/abundance.h5
+4_Kallisto_Results/P1/abundance.tsv
+4_Kallisto_Results/P1/run_info.json
+4_Kallisto_Results/P2/abundance.h5
+4_Kallisto_Results/P2/abundance.tsv
+4_Kallisto_Results/P2/run_info.json
+4_Kallisto_Results/P3/abundance.h5
+4_Kallisto_Results/P3/abundance.tsv
+4_Kallisto_Results/P3/run_info.json
+
+RawData/transcriptome.fasta
+RawData/hg38_GENCODE.v38.bed
