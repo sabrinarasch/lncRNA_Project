@@ -53,7 +53,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * Output: Text files (**3_1_Strand_Direction**)
     2. How many exons, transcripts and genes are in your meta-assembly? How many of these are novel, i.e. do not have an associated GENCODE identifier? How many transcripts and genes are composed of just a single exon?
         * Software: StringTie or Scallop (I used StringTie)
-        * Script: *3_3_StringTie_assembly.slurm*
+        * Script: *3_2_StringTie_assembly.slurm*
         * Input: GTF of reference (**/data/courses/rnaseq_course/lncRNAs/Project1/references/gencode.v21.chr_patch_hapl_scaff.annotation.gtf**) and BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
         * Output: GTF files for each cell line, one meta-assembly GTF format file, gene abundance tables for each cell line, text file with the counts for the questions above (**3_2_StringTie_Results**)
 4. Quantification
