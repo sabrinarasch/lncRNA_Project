@@ -1,0 +1,27 @@
+{
+	"n_targets": 221249,
+	"n_bootstraps": 0,
+	"n_processed": 34391514,
+	"n_pseudoaligned": 31468441,
+	"n_unique": 6036383,
+	"p_pseudoaligned": 91.5,
+	"p_unique": 17.6,
+	"kallisto_version": "0.46.0",
+	"index_version": 10,
+	"start_time": "Fri Dec  2 17:39:22 2022",
+	"call": "kallisto quant -i /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/4_Kallisto_Results/kallisto_index.idx -o /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/4_Kallisto_Results/1_2 -g /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/3_StringTie_Results/stringtie_merged.gtf /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/1_2_L3_R1_001_DnNWKUYhfc9S.fastq.gz /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/1_2_L3_R2_001_SNLaVsTQ6pwl.fastq.gz"
+}
+
+[quant] fragment length distribution will be estimated from the data
+[index] k-mer length: 31
+[index] number of targets: 221,249
+[index] number of k-mers: 127,313,080
+[index] number of equivalence classes: 887,339
+[quant] running in paired-end mode
+[quant] will process pair 1: /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/1_2_L3_R1_001_DnNWKUYhfc9S.fastq.gz
+                             /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/1_2_L3_R2_001_SNLaVsTQ6pwl.fastq.gz
+[quant] finding pseudoalignments for the reads ... done
+[quant] processed 34,391,514 reads, 31,468,441 reads pseudoaligned
+[quant] estimated average fragment length: 282.406
+[   em] quantifying the abundances ... done
+[   em] the Expectation-Maximization algorithm ran for 1,343 rounds
