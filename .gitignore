@@ -53,3 +53,27 @@
 
 RawData/transcriptome.fasta
 RawData/hg38_GENCODE.v38.bed
+4_Kallisto_Results/Old/1_1/abundance.h5
+4_Kallisto_Results/Old/1_1/abundance.tsv
+4_Kallisto_Results/Old/1_1/info.txt
+4_Kallisto_Results/Old/1_1/run_info.json
+4_Kallisto_Results/Old/1_2/abundance.h5
+4_Kallisto_Results/Old/1_2/abundance.tsv
+4_Kallisto_Results/Old/1_2/info.txt
+4_Kallisto_Results/Old/1_2/run_info.json
+4_Kallisto_Results/Old/1_5/abundance.h5
+4_Kallisto_Results/Old/1_5/abundance.tsv
+4_Kallisto_Results/Old/1_5/info.txt
+4_Kallisto_Results/Old/1_5/run_info.json
+4_Kallisto_Results/Old/P1/abundance.h5
+4_Kallisto_Results/Old/P1/abundance.tsv
+4_Kallisto_Results/Old/P1/info.txt
+4_Kallisto_Results/Old/P1/run_info.json
+4_Kallisto_Results/Old/P2/abundance.h5
+4_Kallisto_Results/Old/P2/abundance.tsv
+4_Kallisto_Results/Old/P2/info.txt
+4_Kallisto_Results/Old/P2/run_info.json
+4_Kallisto_Results/Old/P3/abundance.h5
+4_Kallisto_Results/Old/P3/abundance.tsv
+4_Kallisto_Results/Old/P3/info.txt
+4_Kallisto_Results/Old/P3/run_info.json
