@@ -37,35 +37,35 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * How many reads do you have for each replicate? How is the quality of these reads?
     * Software: FASTQC
     * Script: *1_QC.slurm*
-    * Input: \*.fastq.gz files of reads (**RawData**)
-    * Outputs: \*_fastqc.html/\*_fastqc.zip, text file with number reads (**1_QC_Results**)
+    * Input: files of reads *RawData/\*.fastq.gz* 
+    * Outputs: quality control files, file with number reads; **1_QC_Results**
 2. Read mapping
     * What are the alignment rates for your samples? Human genome version hg38/GRCh38
     * Software: HISAT2 or STAR (I used HISAT2)
     * Script: *2_Hisat2_mapping.slurm*
-    * Input: Hisat index files (**/data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2**)
-    * Output: SAM file, text files (changed error files from Hisat2_mapping.slurm script), BAM file (**2_Mapping_Results/*cell_line***)
+    * Input: Hisat index files */data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2*
+    * Output: SAM file, text files (changed error files from Hisat2_mapping.slurm script), BAM file; **2_Mapping_Results/*cell_line***
 3. Transcriptome assembly
     1. What is the direction of the reads? Important for StringTie parameters.
         * Software: RSeQC
         * Script: *3_1_Strand_Direction.slurm*
-        * Input: Reference in bed format (**RawData/hg38_GENCODE.v38.bed**) and BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
-        * Output: Text files (**3_1_Strand_Direction**)
+        * Input: Reference in bed format (*RawData/hg38_GENCODE.v38.bed*) and BAM file (*2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam*)
+        * Output: Text files; **3_1_Strand_Direction**
     2. How many exons, transcripts and genes are in your meta-assembly? How many of these are novel, i.e. do not have an associated GENCODE identifier? How many transcripts and genes are composed of just a single exon?
         * Software: StringTie or Scallop (I used StringTie)
         * Script: *3_2_StringTie_assembly.slurm*
-        * Input: GTF of reference (**/data/courses/rnaseq_course/lncRNAs/Project1/references/gencode.v21.chr_patch_hapl_scaff.annotation.gtf**) and BAM file (**2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam**)
-        * Output: GTF files for each cell line, one meta-assembly GTF format file, gene abundance tables for each cell line, text file with the counts for the questions above (**3_2_StringTie_Results**)
+        * Input: GTF of reference (*/data/courses/rnaseq_course/lncRNAs/Project1/references/gencode.v21.chr_patch_hapl_scaff.annotation.gtf*) and BAM file (*2_Mapping_Results/*cell_line*/*cell_line*_sorted.bam*)
+        * Output: GTF files for each cell line, one meta-assembly GTF format file, gene abundance tables for each cell line; **3_2_StringTie_Results**
 4. Quantification
     * What units of expression are you using? Does the entire expression level across all genes add up to the expected amount? How many transcripts and genes did you detect? How many novel transcripts and genes did you detect?
-    * Software: htseq-count or Kallisto
+    * Software: htseq-count or Kallisto (I used Kallisto)
     * Script: *4_Kallisto.slurm*
-    * Input: GTF (**3_2_StringTie_Results/stringtie_merged.gtf**) and fasta (**/data/courses/rnaseq_course/lncRNAs/Project1/references/GRCH38.genome.fa**) file from the genome for making the transcriptome (**RawData/transcriptome.fasta**) , GTF (**3_2_StringTie_Results/stringtie_merged.gtf**) and fasta (**RawData/*cell_line***) files from the samples for the kallisto
-    * Output: Transcript and gene level expression tables (**4_Kallisto_Results/*cell_line***)
+    * Input: GTF (*3_2_StringTie_Results/stringtie_merged.gtf*) and fasta (*/data/courses/rnaseq_course/lncRNAs/Project1/references/GRCH38.genome.fa*) file from the genome for making the transcriptome (*RawData/transcriptome.fasta*), GTF (*3_2_StringTie_Results/stringtie_merged.gtf*) and fasta (*RawData/*cell_line**) files from the samples for the kallisto
+    * Output: Transcript and gene level expression tables; **4_Kallisto_Results/*cell_line***
 5. Differential expression
     * Do known/expected genes change as expected?
-    * Software: DESeq2 or Sleuth
-    * Script:
+    * Software: DESeq2 or Sleuth (I used Sleuth)
+    * Script: **
     * Input: 
     * Output: Transcript- and gene-level differential expression tables
 6. Integrative analysis
