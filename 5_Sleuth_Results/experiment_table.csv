@@ -1,0 +1,7 @@
+"sample","condition","path"
+"1_1","holoclonal","4_Kallisto_Results/1_1/abundance.h5"
+"1_2","holoclonal","4_Kallisto_Results/1_2/abundance.h5"
+"1_5","holoclonal","4_Kallisto_Results/1_5/abundance.h5"
+"P1","parental","4_Kallisto_Results/P1/abundance.h5"
+"P2","parental","4_Kallisto_Results/P2/abundance.h5"
+"P3","parental","4_Kallisto_Results/P3/abundance.h5"
