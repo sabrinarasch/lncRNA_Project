@@ -1,0 +1,127 @@
+---
+title: "5_Sleuth"
+author: "Sabrina Rasch"
+date: "12.12.2022"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Setup
+
+```{r message=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#set working directory to Source file location
+  setwd("C:/Users/sabri/OneDrive/Desktop/HS22/RNA-sequencing/Project")
+
+#load packages
+  library(tidyverse)
+  library(cowplot)
+  library(sleuth)
+  library(rtracklayer)
+
+```
+
+# Step 5: Differential expression
+
+## Preparation
+
+```{r}
+#Load experiment information
+  experiment_info <- read.csv("5_Sleuth_Results/experiment_table.csv")
+
+#Associating transcripts to genes
+  #Load GTF and convert it to a data frame
+    gtf <- rtracklayer::import('3_2_StringTie_Results/stringtie_merged.gtf')
+    gtf_df <- as.data.frame(gtf)
+  
+  #Filter the columns that are needed and arrange to get NAs at the end
+    gtf_filtered <- gtf_df %>% filter(type == "transcript") %>% select(gene_id, transcript_id, gene_name, ref_gene_id)
+    gtf_arranged <- gtf_filtered %>% arrange(gene_name)
+  
+  #Get the row numbers that are NA and that are not NA
+    is_NA <- is.na(gtf_arranged$gene_name)
+      is_NA_nr <- which(is_NA == TRUE)
+      is_not_NA_nr <- which(is_NA == FALSE)
+  
+  #Get the gene_id and transcript_id if gene_name is NA
+    is_NA_nr_df <- gtf_arranged[is_NA_nr, c(1, 2)]
+  #Get the gene_name and transcript_id if gene_name is not NA
+    is_not_NA_nr_df <- gtf_arranged[is_not_NA_nr, c(3, 2)]
+      colnames(is_not_NA_nr_df) <- c("gene_id", "transcript_id")
+  
+  #Put results in one data frame and sort it the same as the gtf_arranged
+    gene_transcript_map <- as.data.frame(rbind(is_NA_nr_df, is_not_NA_nr_df))
+      gene_transcript_map <- gene_transcript_map[order(match(gene_transcript_map[,2],gtf_filtered[,2])),]
+      colnames(gene_transcript_map) <- c("gene_id", "target_id")
+```
+
+## Transcript-level differential expression
+
+```{r}
+#Construct "sleuth object", store information about experiment and details of model
+  #1.Load kallisto processed data into the object
+    so_transcript <- sleuth_prep(experiment_info, extra_bootstrap_summary = TRUE)
+      #78573 targets passed the filter
+
+  #2. Estimate paramethers for sleuth response error measurment (full) model
+    so_transcript <- sleuth_fit(so_transcript, ~condition, "full")
+      #3 NA values were found during variance shrinkage estimation due to mean observation values outside of the range used for the LOESS fit. The LOESS fit will be repeated using exact computation of the fitted surface to extrapolate the missing values. These are the target ids with NA values: ENST00000582591.1, MSTRG.11145.1, MSTRG.11579.10
+  
+  #3. Estimate parameters for sleuth reduced model
+    so_transcript <- sleuth_fit(so_transcript, ~1, "reduced")
+  
+  #4. Perform differential analysis (testing) using the likelihood ratio test
+    so_transcript <- sleuth_lrt(so_transcript, "reduced", "full")
+    # models(so_transcript)
+  
+  #5. Perform differential analysis (testing) using the Wald text
+    so_transcript <- sleuth_wt(so_transcript, "conditionparental")
+
+#Examine results of test
+  sleuth_table_transcript <- sleuth_results(so_transcript, "reduced:full", "lrt", show_all = FALSE)
+  sleuth_significant_transcript <- filter(sleuth_table, qval <= 0.05)
+  
+#Save everything
+  # write.csv(sleuth_table_transcript, file = "5_Sleuth_Results/sleuth_table_transcript.csv")
+  # write.csv(sleuth_significant_transcript, file = "5_Sleuth_Results/sleuth_significant_transcript.csv")
+  # sleuth_save(so_transcript, file = "5_Sleuth_Results/so_transcript")
+  # so_transcript <- sleuth_load("5_Sleuth_Results/so_transcript")
+```
+
+## Gene-level differential expression
+
+```{r}
+#Construct "sleuth object", store information about experiment and details of model
+  #1.Load kallisto processed data into the object
+    so_gene <- sleuth_prep(experiment_info, target_mapping = gene_transcript_map, aggregation_column = "gene_id", gene_mode = TRUE, extra_bootstrap_summary = TRUE)
+      #78573 targets passed the filter
+      #23236 genes passed the filter
+
+  #2. Estimate paramethers for sleuth response error measurment (full) model
+    so_gene <- sleuth_fit(so_gene, ~condition, 'full')
+      #5 NA values were found during variance shrinkage estimation due to mean observation values outside of the range used for the LOESS fit. The LOESS fit will be repeated using exact computation of the fitted surface to extrapolate the missing values. These are the target ids with NA values: AC016907.3, LRP2, RNF152, RP13-580B18.4, ZDHHC22
+  
+  #3. Estimate parameters for sleuth reduced model
+    so_gene <- sleuth_fit(so_gene, ~1, 'reduced')
+      #on due to mean observation values outside of the range used for the LOESS fit. The LOESS fit will be repeated using exact computation of the fitted surface to extrapolate the missing values. These are the target ids with NA values: AC016907.3, LRP2, RNF152, RP13-580B18.4, ZDHHC22, MT-CO1
+  
+  #4. Perform differential analysis (testing) using the likelihood ratio test
+    so_gene <- sleuth_lrt(so_gene, 'reduced', 'full')
+    # models(so_gene)
+
+  #5. Perform differential analysis (testing) using the Wald text
+    so_gene <- sleuth_wt(so_gene, "conditionparental")
+
+#Examine results of test
+  sleuth_table_gene <- sleuth_results(so_gene, 'reduced:full', 'lrt', show_all = FALSE)
+  sleuth_significant_gene <- filter(sleuth_table_gene, qval <= 0.05)
+
+#Save everything
+  # write.csv(sleuth_table_gene, file = "5_Sleuth_Results/sleuth_table_gene.csv")
+  # write.csv(sleuth_significant_gene, file = "5_Sleuth_Results/sleuth_significant_gene.csv")
+  # sleuth_save(so_gene, file = "5_Sleuth_Results/so_gene")
+  # so_gene <- sleuth_load("5_Sleuth_Results/so_gene")
+```
+

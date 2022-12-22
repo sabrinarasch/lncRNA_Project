@@ -1,0 +1,70 @@
+---
+title: "3_3_Counting"
+author: "Sabrina Rasch"
+date: "12.12.2022"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Setup
+
+```{r message=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#set working directory to Source file location
+  setwd("C:/Users/sabri/OneDrive/Desktop/HS22/RNA-sequencing/Project")
+
+#load packages
+  library(tidyverse)
+  library(rtracklayer)
+```
+
+# Step 3: Transcriptome assembly
+
+To answer the questions of this step the stringtie_merged.gtf was loaded and filtered.
+
+```{r Step 3, eval=FALSE, include=FALSE}
+#Load GTF and convert it to a data frame
+  gtf <- rtracklayer::import('3_2_StringTie_Results/stringtie_merged.gtf')
+  gtf_df <- as.data.frame(gtf)
+
+#How many entries does the meta-assembly have?
+  gtf_filtered <- gtf_df %>% select(seqnames, strand, type, gene_id, transcript_id, exon_number, gene_name, ref_gene_id)
+    # nrow(gtf_filtered) #1584745
+
+#How many transcripts are in the meta-assembly?
+  gtf_transcript <- gtf_filtered %>% filter(type == "transcript") %>% select(seqnames, strand, type, gene_id, transcript_id, gene_name, ref_gene_id)
+    # nrow(gtf_transcript) #221249
+
+#How many novel genes are in the meta-assembly?
+  gtf_novel <- gtf_transcript %>% filter(str_detect(transcript_id, "MSTRG"))
+    # nrow(gtf_novel) #12938
+
+#How many genes with annotation are in the meta-assembly?
+  gtf_annotation <- gtf_transcript %>% filter(!is.na(gene_name))
+  gtf_annotation <- unique(gtf_annotation$gene_name)
+    # length(gtf_annotation) #58646
+
+#How many exons are in the meta-assembly?
+  gtf_exon <- gtf_filtered %>% filter(type == "exon")
+    # nrow(gtf_exon) #1363496
+
+#How many transcripts are composed of just a single exon?
+  exon_one <- gtf_filtered %>% filter(exon_number == 1)
+  exon_two <- gtf_filtered %>% filter(exon_number == 2)
+  nr_exon <- nrow(exon_one) - nrow(exon_two)
+    # nr_exon #29470
+
+#How many annotated transcripts are composed of just a single exon?
+  exon_one_annotation <- exon_one %>% filter(!is.na(gene_name))
+  exon_two_annotation <- exon_two %>% filter(!is.na(gene_name))
+  nr_exon_annotation <- nrow(exon_one_annotation) - nrow(exon_two_annotation)
+    # nr_exon_annotation #28583
+
+#How many novel transcripts are composed of just a single exon?
+  exon_one_novel <- exon_one %>% filter(is.na(gene_name))
+  exon_two_novel <- exon_two %>% filter(is.na(gene_name))
+  nr_exon_novel <- nrow(exon_one_novel) - nrow(exon_two_novel)
+    # nr_exon_novel #887
+```
