@@ -11,7 +11,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
 ## Files
 
 * Holoclonal
-    * Path: **/data/courses/rnaseq_course/lncRNAs/fastq/1\***
+    * Path: /data/courses/rnaseq_course/lncRNAs/fastq/1\*
     * Replicates: 1.1, 1.2, 1.5
     * 1_1_L3_R1_001_ij43KLkHk1vK.fastq.gz
     * 1_1_L3_R2_001_qyjToP2TB6N7.fastq.gz
@@ -20,7 +20,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * 1_5_L3_R1_001_iXvvRzwmFxF3.fastq.gz
     * 1_5_L3_R2_001_iXCMrktKyEh0.fastq.gz
 * Parental
-    * Path: **/data/courses/rnaseq_course/lncRNAs/fastq/P\***
+    * Path: /data/courses/rnaseq_course/lncRNAs/fastq/P\*
     * Replicates: P1, P2, P3
     * P1_L3_R1_001_9L0tZ86sF4p8.fastq.gz
     * P1_L3_R2_001_yd9NfV9WdvvL.fastq.gz
@@ -28,52 +28,134 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * P2_L3_R2_001_06FRMIIGwpH6.fastq.gz
     * P3_L3_R1_001_fjv6hlbFgCST.fastq.gz
     * P3_L3_R2_001_xo7RBLLYYqeu.fastq.gz
-* Reference
-    * Fetched from https://www.gencodegenes.org/human/release_21.html on 14.11.2022.
-
+* References: Human genome version hg38/GRCh38
+    * [Reference genome fasta file](https://www.gencodegenes.org/human/release_21.html); Fetched on the 13.11.2022 by Roman Schwob
+    * [Reference genome gtf file](https://www.gencodegenes.org/human/release_21.html); Fetched on the 13.11.2022 by Roman Schwob
+    * [Reference genome bed file](https.//sourceforge.net/projects/rseqc/files/BED/Human_Homo_sapiens/); Fetched on the 24.11.2022 by Sabrina Rasch
+    
 ## Steps
 
 1. Read quality and statistics:
-    * How many reads do you have for each replicate? How is the quality of these reads?
-    * Software: FASTQC
-    * Script: *1_QC.slurm*
-    * Input: files of reads *RawData/\*.fastq.gz* 
-    * Outputs: quality control files, file with number reads; **1_QC_Results**
+    * Questions
+        * How many reads do you have for each replicate?
+        * How is the quality of these reads?
+    * Software
+        * FASTQC 0.11.0
+    * Script
+        * 1_QC.slurm
+    * Input
+        * RawData/1\*fastq.gz
+        * RawData/P\*fastq.gz
+    * Output in 1_QC_Results
+        * *\*sample\**.zip
+        * *\*sample\**.html
+        * NR_reads.txt
 2. Read mapping
-    * What are the alignment rates for your samples? Human genome version hg38/GRCh38
-    * Software: HISAT2 or STAR (I used HISAT2)
-    * Script: *2_Hisat2_mapping.slurm*
-    * Input: Hisat index files */data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2*
-    * Output: SAM file, text files (changed error files from Hisat2_mapping.slurm script), BAM file; **2_Mapping_Results/\*cell_line\***
+    * Questions
+        * What are the alignment rates for your samples?
+    * Software
+        * HISAT2 2.2.1
+        * samtools 1.10
+    * Script
+        * 2_Hisat2_mapping.slurm
+    * Input
+        * RawData/1\*fastq.gz
+        * RawData/P\*fastq.gz
+        * data/courses/rnaseq_course/lncRNAs/Project1/references/GRCh38.genome.fa
+        * data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2
+        * 2_Mapping_Results/GRCh38_genome.fai
+    * Output in 2_Mapping_Results/*\*cell_line\**
+        * *\*cell_line\**_hisat2_error.txt
+        * *\*cell_line\**_hisat2.sam
+        * *\*cell_line\**_sorted.bam
+        * *\*cell_line\**_sorted.bam.bai
+        * *\*cell_line\**_unsorted.bam
 3. Transcriptome assembly
-    1. What is the direction of the reads? Important for StringTie parameters.
-        * Software: RSeQC
-        * Script: *3_1_Strand_Direction.slurm*
-        * Input: Reference in bed format *RawData/hg38_GENCODE.v38.bed* and BAM file *2_Mapping_Results/\*cell_line\*/\*cell_line\*_sorted.bam*
-        * Output: Text files; **3_1_Strand_Direction**
-    2. How many exons, transcripts and genes are in your meta-assembly? How many of these are novel, i.e. do not have an associated GENCODE identifier? How many transcripts and genes are composed of just a single exon?
-        * Software: StringTie or Scallop (I used StringTie)
-        * Script: *3_2_StringTie_assembly.slurm*, *3_3_counting.Rmd*
-        * Input: GTF of reference */data/courses/rnaseq_course/lncRNAs/Project1/references/gencode.v21.chr_patch_hapl_scaff.annotation.gtf* and BAM file *2_Mapping_Results/\*cell_line\*/\*cell_line\*_sorted.bam*
-        * Output: GTF files for each cell line, one meta-assembly GTF format file, gene abundance tables for each cell line; **3_2_StringTie_Results**
+    * Questions
+        * What is the direction of the reads? Important for StringTie parameters.
+        * How many exons, transcripts and genes are in your meta-assembly?
+        * How many of these are novel, i.e. do not have an associated GENCODE identifier?
+        * How many transcripts and genes are composed of just a single exon?
+    * Software
+        * RSeQC 4.0.0
+        * StringTie 1.3.3b
+        * R 4.2.2
+            * tidyverse 1.3.2
+            * rtracklayer1.58.0
+    * Script
+        * 3_1_Strand_Direction.slurm
+        * 3_2_StringTie_assembly.slurm
+        * 3_3_counting.Rmd
+    * Input
+        * 3_1
+            * RawData/hg38_GENCODE.v38.bed
+        * 3_2
+            * data/courses/rnaseq_course/lncRNAs/Project1/references/gencode\-.v21\-.chr\-_patch\-_hapl\-_scaff.annotation.gtf
+            * 2_Mapping_Results/*\*cell_line\**/*\*cell_line\**_sorted.bam
+        * 3_3
+            * 3_2_StringTie_Results/stringtie_merged.gtf
+    * Output
+        * Output in 3_1_Strand_Direction
+            * *\*cell_line\**_direction.txt
+        * Output in 3_2_StringTie_Results
+            * *\*cell_line\**_gene_abund.tab
+            * *\*cell_line\**.gtf
+            * assembly_GTF_list.txt
+            * stringtie_merged.gtf
 4. Quantification
-    * What units of expression are you using? Does the entire expression level across all genes add up to the expected amount? How many transcripts and genes did you detect? How many novel transcripts and genes did you detect?
-    * Software: htseq-count or Kallisto (I used Kallisto)
-    * Script: *4_1_Kallisto.slurm*, *4_2_Validation.Rmd*
-    * Input: GTF *3_2_StringTie_Results/stringtie_merged.gtf*) and fasta */data/courses/rnaseq_course/lncRNAs/Project1/references/GRCH38.genome.fa* file from the genome for making the transcriptome *RawData/transcriptome.fasta*, GTF *3_2_StringTie_Results/stringtie_merged.gtf* and files of reads *RawData/\*.fastq.gz* for the kallisto
-    * Output: Transcript- and gene-level expression tables; **4_Kallisto_Results/\*cell_line\***
+    * Questions
+        * What units of expression are you using?
+        * Does the entire expression level across all genes add up to the expected amount?
+        * How many transcripts and genes did you detect? How many novel transcripts and genes did you detect?
+    * Software
+        * Kallisto 0.46.0
+        * cufflinks 2.2.1
+    * Script
+        * 4_1_Kallisto.slurm
+        * 4_2_Validation.Rmd
+    * Input
+        * 4_1
+            * 3_2_StringTie_Results/stringtie_merged.gtf
+            * data/courses/rnaseq_course/lncRNAs/Project1/references/GRCh38.genome.fa
+            * RawData/1\*fastq.gz
+            * RawData/P\*fastq.gz
+        * 4_2
+            * 4_Kallistor_Results/*\*cell_line\**/abunance.tsv
+    * Output in 4_Kallisto_Results/*\*cell_line\** 
+        * *\*cell_line\**_info.txt
+        * abundance.h5
+        * abundance.tsv
+        * run_info.json
 5. Differential expression
-    * Do known/expected genes change as expected?
-    * Software: DESeq2 or Sleuth (I used Sleuth)
-    * Script: *5_Sleuth.Rmd*
-    * Input: CSV file with experiment information, GTF file *3_2_StringTie_Results/stringtie_merged.gtf*, kallisto output files *4_Kallisto_Results/\*cell_line\*/abundance.h5*
-    * Output: Transcript- and gene-level differential expression tables; **5_Sleuth_Results**
+    * Questions
+        * Do known/expected genes change as expected?
+    * Software
+        * R 4.2.2
+            * sleuth 0.30.1
+            * tidyverse 1.3.2
+            * rtracklayer1.58.0
+    * Script
+        * 5_Sleuth.Rmd
+    * Input
+        * 5_Sleuth_Results/experiment_table.csv
+        * 3_2_StringTie_Results/stringtie_merged.gtf
+        * 4_Kallistor_Results/*\*cell_line\**/abundance.h5
+    * Output in 5_Sleuth_Results
+        * gene_transcript_map.csv
+        * sleuth_lrt_[gene/transcript].csv
+        * sleuth_lrt_[gene/transcript]_significant.csv
+        * sleuth_wt_[gene/transcript].csv
+        * sleuth_wt_[gene/transcript]_significant.csv
+        * sleuth object (so_[gene/transcript])
 6. Integrative analysis
-    * How good are the 5’ and 3’ annotations of your transcripts? What percent of your novel transcripts are protein coding? How many novel “intergenic” genes have you identified?
-    * Software: CPAT or CPC
-    * Script:
-    * Input: 
-    * Output: Statistics and plots addressing key questions
+    * Questions
+        * How good are the 5’ and 3’ annotations of your transcripts? What percent of your novel transcripts are protein coding?
+        * How many novel “intergenic” genes have you identified?
+    * Software
+    * Script
+    * Input
+    * Output
+        * Statistics and plots addressing key questions
 7. ***Optional*** Prioritization
     * How would you prioritize your data to provide her with a ranked list of candidates?
     * Software:
