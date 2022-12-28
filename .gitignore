@@ -23,13 +23,13 @@
 2_Mapping_Results/P3/P3_sorted.bam.bai
 2_Mapping_Results/P3/P3_unsorted.bam
 
-3_2_StringTie_Results/1_1.gtf
-3_2_StringTie_Results/1_2.gtf
-3_2_StringTie_Results/1_5.gtf
-3_2_StringTie_Results/P1.gtf
-3_2_StringTie_Results/P2.gtf
-3_2_StringTie_Results/P3.gtf
-3_2_StringTie_Results/stringtie_merged.gtf
+3_StringTie_Results/1_1.gtf
+3_StringTie_Results/1_2.gtf
+3_StringTie_Results/1_5.gtf
+3_StringTie_Results/P1.gtf
+3_StringTie_Results/P2.gtf
+3_StringTie_Results/P3.gtf
+3_StringTie_Results/stringtie_merged.gtf
 
 4_Kallisto_Results/kallisto_index.idx
 4_Kallisto_Results/1_1/abundance.h5

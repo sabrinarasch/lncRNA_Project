@@ -33,7 +33,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Associating transcripts to genes
   #Load GTF and convert it to a data frame
-    gtf <- rtracklayer::import('3_2_StringTie_Results/stringtie_merged.gtf')
+    gtf <- rtracklayer::import('3_StringTie_Results/stringtie_merged.gtf')
     gtf_df <- as.data.frame(gtf)
   
   #Filter the columns that are needed and arrange to get NAs at the end

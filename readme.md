@@ -72,36 +72,28 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * *\*cell_line\**_unsorted.bam
 3. Transcriptome assembly
     * Questions
-        * What is the direction of the reads? Important for StringTie parameters.
         * How many exons, transcripts and genes are in your meta-assembly?
         * How many of these are novel, i.e. do not have an associated GENCODE identifier?
         * How many transcripts and genes are composed of just a single exon?
     * Software
-        * RSeQC 4.0.0
         * StringTie 1.3.3b
         * R 4.2.2
             * tidyverse 1.3.2
             * rtracklayer1.58.0
     * Script
-        * 3_1_Strand_Direction.slurm
-        * 3_2_StringTie_assembly.slurm
-        * 3_3_counting.Rmd
+        * 3_1_StringTie_assembly.slurm
+        * 3_2_counting.Rmd
     * Input
         * 3_1
-            * RawData/hg38_GENCODE.v38.bed
-        * 3_2
             * data/courses/rnaseq_course/lncRNAs/Project1/references/gencode\-.v21\-.chr\-_patch\-_hapl\-_scaff.annotation.gtf
             * 2_Mapping_Results/*\*cell_line\**/*\*cell_line\**_sorted.bam
-        * 3_3
-            * 3_2_StringTie_Results/stringtie_merged.gtf
-    * Output
-        * Output in 3_1_Strand_Direction
-            * *\*cell_line\**_direction.txt
-        * Output in 3_2_StringTie_Results
-            * *\*cell_line\**_gene_abund.tab
-            * *\*cell_line\**.gtf
-            * assembly_GTF_list.txt
-            * stringtie_merged.gtf
+        * 3_2
+            * 3_StringTie_Results/stringtie_merged.gtf
+    * Output 3_StringTie_Results
+        * *\*cell_line\**_gene_abund.tab
+        * *\*cell_line\**.gtf
+        * assembly_GTF_list.txt
+        * stringtie_merged.gtf
 4. Quantification
     * Questions
         * What units of expression are you using?
@@ -115,7 +107,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * 4_2_Validation.Rmd
     * Input
         * 4_1
-            * 3_2_StringTie_Results/stringtie_merged.gtf
+            * 3_StringTie_Results/stringtie_merged.gtf
             * data/courses/rnaseq_course/lncRNAs/Project1/references/GRCh38.genome.fa
             * RawData/1\*fastq.gz
             * RawData/P\*fastq.gz
@@ -138,7 +130,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * 5_Sleuth.Rmd
     * Input
         * 5_Sleuth_Results/experiment_table.csv
-        * 3_2_StringTie_Results/stringtie_merged.gtf
+        * 3_StringTie_Results/stringtie_merged.gtf
         * 4_Kallistor_Results/*\*cell_line\**/abundance.h5
     * Output in 5_Sleuth_Results
         * gene_transcript_map.csv
