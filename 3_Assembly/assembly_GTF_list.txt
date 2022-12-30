@@ -1,0 +1,6 @@
+/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/3_Assembly/1_1.gtf
+/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/3_Assembly/1_2.gtf
+/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/3_Assembly/1_5.gtf
+/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/3_Assembly/P1.gtf
+/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/3_Assembly/P2.gtf
+/data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/3_Assembly/P3.gtf
