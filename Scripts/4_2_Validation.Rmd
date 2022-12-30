@@ -13,31 +13,31 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 
 #set working directory to Source file location
-  setwd("C:/Users/sabri/OneDrive/Desktop/HS22/RNA-sequencing/Project")
+  setwd("C:/Users/sabri/OneDrive/Desktop/HS22/RNA-sequencing/Project/Scripts/")
 ```
 
 # Step 4: Quantification
 
-For validating the results, the tpm values can be sumed up. If they equal 1'000'000 the results are very likely to be right.
+For validating the results, the tpm values can be summed up. If they equal 1'000'000 the results are very likely to be right.
 
 ```{r Step 4, eval=FALSE, include=FALSE}
 #Sum tmp values for validation
-abundance_1_1 <- read.table(file = "4_Kallisto_Results/1_1/abundance.tsv", header = TRUE)
+abundance_1_1 <- read.table(file = "../4_Quantification/1_1/abundance.tsv", header = TRUE)
   sum(abundance_1_1$tpm)
 
-abundance_1_2 <- read.table(file = "4_Kallisto_Results/1_2/abundance.tsv", header = TRUE)
+abundance_1_2 <- read.table(file = "../4_Quantification/1_2/abundance.tsv", header = TRUE)
   sum(abundance_1_2$tpm)
 
-abundance_1_5 <- read.table(file = "4_Kallisto_Results/1_5/abundance.tsv", header = TRUE)
+abundance_1_5 <- read.table(file = "../4_Quantification/1_5/abundance.tsv", header = TRUE)
   sum(abundance_1_5$tpm)
 
-abundance_P1 <- read.table(file = "4_Kallisto_Results/P1/abundance.tsv", header = TRUE)
+abundance_P1 <- read.table(file = "../4_Quantification/P1/abundance.tsv", header = TRUE)
   sum(abundance_P1$tpm)
 
-abundance_P2 <- read.table(file = "4_Kallisto_Results/P2/abundance.tsv", header = TRUE)
+abundance_P2 <- read.table(file = "../4_Quantification/P2/abundance.tsv", header = TRUE)
   sum(abundance_P2$tpm)
 
-abundance_P3 <- read.table(file = "4_Kallisto_Results/P3/abundance.tsv", header = TRUE)
+abundance_P3 <- read.table(file = "../4_Quantification/P3/abundance.tsv", header = TRUE)
   sum(abundance_P3$tpm)
 ```
 
