@@ -1,0 +1,43 @@
+[quant] fragment length distribution will be estimated from the data
+[index] k-mer length: 31
+[index] number of targets: 221,417
+[index] number of k-mers: 127,326,683
+[index] number of equivalence classes: 887,736
+[quant] running in paired-end mode
+[quant] will process pair 1: /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/P2_L3_R1_001_R82RphLQ2938.fastq.gz
+                             /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/P2_L3_R2_001_06FRMIIGwpH6.fastq.gz
+[quant] finding pseudoalignments for the reads ... done
+[quant] processed 32,894,526 reads, 30,447,382 reads pseudoaligned
+[quant] estimated average fragment length: 276.298
+[   em] quantifying the abundances ... done
+[   em] the Expectation-Maximization algorithm ran for 1,389 rounds
+[bstrp] running EM for the bootstrap: 1
+[bstrp] running EM for the bootstrap: 2
+[bstrp] running EM for the bootstrap: 3
+[bstrp] running EM for the bootstrap: 4
+[bstrp] running EM for the bootstrap: 5
+[bstrp] running EM for the bootstrap: 6
+[bstrp] running EM for the bootstrap: 7
+[bstrp] running EM for the bootstrap: 8
+[bstrp] running EM for the bootstrap: 9
+[bstrp] running EM for the bootstrap: 10
+[bstrp] running EM for the bootstrap: 11
+[bstrp] running EM for the bootstrap: 12
+[bstrp] running EM for the bootstrap: 13
+[bstrp] running EM for the bootstrap: 14
+[bstrp] running EM for the bootstrap: 15
+[bstrp] running EM for the bootstrap: 16
+[bstrp] running EM for the bootstrap: 17
+[bstrp] running EM for the bootstrap: 18
+[bstrp] running EM for the bootstrap: 19
+[bstrp] running EM for the bootstrap: 20
+[bstrp] running EM for the bootstrap: 21
+[bstrp] running EM for the bootstrap: 22
+[bstrp] running EM for the bootstrap: 23
+[bstrp] running EM for the bootstrap: 24
+[bstrp] running EM for the bootstrap: 25
+[bstrp] running EM for the bootstrap: 26
+[bstrp] running EM for the bootstrap: 27
+[bstrp] running EM for the bootstrap: 28
+[bstrp] running EM for the bootstrap: 29
+[bstrp] running EM for the bootstrap: 30
