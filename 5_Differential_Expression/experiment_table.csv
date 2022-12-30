@@ -1,0 +1,7 @@
+"sample","condition","path"
+"1_1","holoclonal","../4_Quantification/1_1/abundance.h5"
+"1_2","holoclonal","../4_Quantification/1_2/abundance.h5"
+"1_5","holoclonal","../4_Quantification/1_5/abundance.h5"
+"P1","parental","../4_Quantification/P1/abundance.h5"
+"P2","parental","../4_Quantification/P2/abundance.h5"
+"P3","parental","../4_Quantification/P3/abundance.h5"

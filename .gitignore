@@ -77,3 +77,6 @@ RawData/hisat2_index/GRCh38.genome.fa.fai
 4_Quantification/P3/abundance.h5
 4_Quantification/P3/abundance.tsv
 4_Quantification/P3/run_info.json
+
+5_Differential_Expression/so_gene
+5_Differential_Expression/so_transcript
