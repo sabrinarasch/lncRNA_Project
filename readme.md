@@ -46,7 +46,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * Input
         * RawData/1\*fastq.gz
         * RawData/P\*fastq.gz
-    * Output in 1_QC_Results
+    * Output in 1_QC
         * *\*sample\**.zip
         * *\*sample\**.html
         * NR_reads.txt
@@ -57,15 +57,15 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * HISAT2 2.2.1
         * samtools 1.10
     * Script
-        * 2_Hisat2_mapping.slurm
+        * 2_Mapping.slurm
     * Input
         * RawData/1\*fastq.gz
         * RawData/P\*fastq.gz
-        * data/courses/rnaseq_course/lncRNAs/Project1/references/GRCh38.genome.fa
-        * data/courses/rnaseq_course/lncRNAs/Project1/references/\*.[0-9].ht2
-        * 2_Mapping_Results/GRCh38_genome.fai
-    * Output in 2_Mapping_Results/*\*cell_line\**
-        * *\*cell_line\**_hisat2_error.txt
+        * RaWData/hisat2_index/GRCh38.genome.fa
+        * RawData/hisat2_index/\*.[0-9].ht2
+        * 2_Mapping/GRCh38_genome.fai
+    * Output in 2_Mapping/*\*cell_line\**
+        * *\*cell_line\**_error_hisat2.txt
         * *\*cell_line\**_hisat2.sam
         * *\*cell_line\**_sorted.bam
         * *\*cell_line\**_sorted.bam.bai
@@ -81,15 +81,15 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
             * tidyverse 1.3.2
             * rtracklayer1.58.0
     * Script
-        * 3_1_StringTie_assembly.slurm
-        * 3_2_counting.Rmd
+        * 3_1_Assembly.slurm
+        * 3_2_Counting.Rmd
     * Input
         * 3_1
-            * data/courses/rnaseq_course/lncRNAs/Project1/references/gencode\-.v21\-.chr\-_patch\-_hapl\-_scaff.annotation.gtf
-            * 2_Mapping_Results/*\*cell_line\**/*\*cell_line\**_sorted.bam
+            * RawData/gencode\-.v21\-.chr\-_patch\-_hapl\-_scaff.annotation.gtf
+            * 2_Mapping/*\*cell_line\**/*\*cell_line\**_sorted.bam
         * 3_2
-            * 3_StringTie_Results/stringtie_merged.gtf
-    * Output 3_StringTie_Results
+            * 3_Assembly/stringtie_merged.gtf
+    * Output 3_Assembly
         * *\*cell_line\**_gene_abund.tab
         * *\*cell_line\**.gtf
         * assembly_GTF_list.txt
@@ -103,18 +103,18 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * Kallisto 0.46.0
         * cufflinks 2.2.1
     * Script
-        * 4_1_Kallisto.slurm
+        * 4_1_Quantification.slurm
         * 4_2_Validation.Rmd
     * Input
         * 4_1
-            * 3_StringTie_Results/stringtie_merged.gtf
-            * data/courses/rnaseq_course/lncRNAs/Project1/references/GRCh38.genome.fa
+            * 3_Assembly/stringtie_merged.gtf
+            * RawData/hisat2_index/GRCh38.genome.fa
             * RawData/1\*fastq.gz
             * RawData/P\*fastq.gz
         * 4_2
-            * 4_Kallistor_Results/*\*cell_line\**/abunance.tsv
-    * Output in 4_Kallisto_Results/*\*cell_line\** 
-        * *\*cell_line\**_info.txt
+            * 4_Quantification/*\*cell_line\**/abunance.tsv
+    * Output in 4_Quantification/*\*cell_line\** 
+        * *\*cell_line\**_error_Kallisto.txt
         * abundance.h5
         * abundance.tsv
         * run_info.json
@@ -129,10 +129,10 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * Script
         * 5_Sleuth.Rmd
     * Input
-        * 5_Sleuth_Results/experiment_table.csv
-        * 3_StringTie_Results/stringtie_merged.gtf
-        * 4_Kallistor_Results/*\*cell_line\**/abundance.h5
-    * Output in 5_Sleuth_Results
+        * 5_Differential_Expression/experiment_table.csv
+        * 3_Assembly/stringtie_merged.gtf
+        * 4_Quantification/*\*cell_line\**/abundance.h5
+    * Output in 5_Differential_Expression
         * gene_transcript_map.csv
         * sleuth_lrt_[gene/transcript].csv
         * sleuth_lrt_[gene/transcript]_significant.csv
