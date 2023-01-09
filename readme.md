@@ -31,7 +31,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
 * References: Human genome version hg38/GRCh38
     * [Reference genome fasta file](https://www.gencodegenes.org/human/release_21.html); Fetched on the 13.11.2022 by Roman Schwob
     * [Reference genome gtf file](https://www.gencodegenes.org/human/release_21.html); Fetched on the 13.11.2022 by Roman Schwob
-    * [Reference genome bed file](https.//sourceforge.net/projects/rseqc/files/BED/Human_Homo_sapiens/); Fetched on the 24.11.2022 by Sabrina Rasch
+    * [Reference genome bed file](https://fantom.gsc.riken.jp/5/datafiles/reprocessed/hg38_latest/extra/CAGE_peaks/breakdown/); Fetched on the 08.01.2023 by Sabrina Rasch
     
 ## Steps
 

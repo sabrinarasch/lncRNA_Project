@@ -80,3 +80,9 @@ RawData/hisat2_index/GRCh38.genome.fa.fai
 
 5_Differential_Expression/so_gene
 5_Differential_Expression/so_transcript
+6_Integrative_Analysis/stringtie_merged_polyA.bed
+6_Integrative_Analysis/stringtie_merged_TSS.bed
+6_Integrative_Analysis/stringtie_merged.bed
+RawData/atlas.clusters.2.0.GRCh38.96.bed.gz
+RawData/atlas.clusters.2.0.GRCh38.96.tsv.gz
+RawData/hg38_fair_CAGE_peaks_phase1and2.bed.gz

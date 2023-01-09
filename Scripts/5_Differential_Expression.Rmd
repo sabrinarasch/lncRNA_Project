@@ -1,5 +1,5 @@
 ---
-title: "5_Sleuth"
+title: "5_Differential_Expression"
 author: "Sabrina Rasch"
 date: "12.12.2022"
 output:
