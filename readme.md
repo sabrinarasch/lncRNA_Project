@@ -31,7 +31,8 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
 * References: Human genome version hg38/GRCh38
     * [Reference genome fasta file](https://www.gencodegenes.org/human/release_21.html); Fetched on the 13.11.2022 by Roman Schwob
     * [Reference genome gtf file](https://www.gencodegenes.org/human/release_21.html); Fetched on the 13.11.2022 by Roman Schwob
-    * [Reference genome bed file](https://fantom.gsc.riken.jp/5/datafiles/reprocessed/hg38_latest/extra/CAGE_peaks/breakdown/); Fetched on the 08.01.2023 by Sabrina Rasch
+    * [Reference TSS bed file](https://fantom.gsc.riken.jp/5/datafiles/reprocessed/hg38_latest/extra/CAGE_peaks/breakdown/); Fetched on the 08.01.2023 by Sabrina Rasch
+    * [Reference polyA bed file](https://polyasite.unibas.ch/atlas); Fetched on the 08.01.2023 by Sabrina Rasch
     
 ## Steps
 
@@ -44,8 +45,8 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * Script
         * 1_QC.slurm
     * Input
-        * RawData/1\*fastq.gz
-        * RawData/P\*fastq.gz
+        * RawData/Reads/1\*fastq.gz
+        * RawData/Reads/P\*fastq.gz
     * Output in 1_QC
         * *\*sample\**.zip
         * *\*sample\**.html
@@ -59,8 +60,8 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
     * Script
         * 2_Mapping.slurm
     * Input
-        * RawData/1\*fastq.gz
-        * RawData/P\*fastq.gz
+        * RawData/Reads/1\*fastq.gz
+        * RawData/Reads/P\*fastq.gz
         * RaWData/hisat2_index/GRCh38.genome.fa
         * RawData/hisat2_index/\*.[0-9].ht2
         * 2_Mapping/GRCh38_genome.fai
@@ -109,8 +110,8 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * 4_1
             * 3_Assembly/stringtie_merged.gtf
             * RawData/hisat2_index/GRCh38.genome.fa
-            * RawData/1\*fastq.gz
-            * RawData/P\*fastq.gz
+            * RawData/Reads/1\*fastq.gz
+            * RawData/Reads/P\*fastq.gz
         * 4_2
             * 4_Quantification/*\*cell_line\**/abunance.tsv
     * Output in 4_Quantification/*\*cell_line\** 

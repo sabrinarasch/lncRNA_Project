@@ -4,7 +4,7 @@ RawData/transcriptome.fasta
 RawData/atlas.clusters.2.0.GRCh38.96.bed.gz
 RawData/polyA_atlas_cluster_GRCh38_96.bed
 RawData/hg38_fair_CAGE_peaks_phase1and2.bed.gz
-
+RawData/atlas.clusters.2.0.GRCh38.96.bed
 
 RawData/hisat2_index/GRCh38.genome.1.ht2
 RawData/hisat2_index/GRCh38.genome.2.ht2
@@ -29,7 +29,6 @@ RawData/Reads/P2_L3_R1_001_R82RphLQ2938.fastq.gz
 RawData/Reads/P2_L3_R2_001_06FRMIIGwpH6.fastq.gz
 RawData/Reads/P3_L3_R1_001_fjv6hlbFgCST.fastq.gz
 RawData/Reads/P3_L3_R2_001_xo7RBLLYYqeu.fastq.gz
-
 
 1_QC/1_1_L3_R1_001_ij43KLkHk1vK_fastqc.zip
 1_QC/1_1_L3_R2_001_qyjToP2TB6N7_fastqc.zip
