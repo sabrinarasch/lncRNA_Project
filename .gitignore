@@ -1,7 +1,11 @@
 RawData/gencode.v21.chr_patch_hapl_scaff.annotation.gtf
-RawData/hglft_genome_553a_9c7380.bed
 RawData/kallisto_index.idx
 RawData/transcriptome.fasta
+RawData/atlas.clusters.2.0.GRCh38.96.bed.gz
+RawData/polyA_atlas_cluster_GRCh38_96.bed
+RawData/hg38_fair_CAGE_peaks_phase1and2.bed.gz
+
+
 RawData/hisat2_index/GRCh38.genome.1.ht2
 RawData/hisat2_index/GRCh38.genome.2.ht2
 RawData/hisat2_index/GRCh38.genome.3.ht2
@@ -12,6 +16,20 @@ RawData/hisat2_index/GRCh38.genome.7.ht2
 RawData/hisat2_index/GRCh38.genome.8.ht2
 RawData/hisat2_index/GRCh38.genome.fa
 RawData/hisat2_index/GRCh38.genome.fa.fai
+
+RawData/Reads/1_1_L3_R1_001_ij43KLkHk1vK.fastq.gz
+RawData/Reads/1_1_L3_R2_001_qyjToP2TB6N7.fastq.gz
+RawData/Reads/1_2_L3_R1_001_DnNWKUYhfc9S.fastq.gz
+RawData/Reads/1_2_L3_R2_001_SNLaVsTQ6pwl.fastq.gz
+RawData/Reads/1_5_L3_R1_001_iXvvRzwmFxF3.fastq.gz
+RawData/Reads/1_5_L3_R2_001_iXCMrktKyEh0.fastq.gz
+RawData/Reads/P1_L3_R1_001_9L0tZ86sF4p8.fastq.gz
+RawData/Reads/P1_L3_R2_001_yd9NfV9WdvvL.fastq.gz
+RawData/Reads/P2_L3_R1_001_R82RphLQ2938.fastq.gz
+RawData/Reads/P2_L3_R2_001_06FRMIIGwpH6.fastq.gz
+RawData/Reads/P3_L3_R1_001_fjv6hlbFgCST.fastq.gz
+RawData/Reads/P3_L3_R2_001_xo7RBLLYYqeu.fastq.gz
+
 
 1_QC/1_1_L3_R1_001_ij43KLkHk1vK_fastqc.zip
 1_QC/1_1_L3_R2_001_qyjToP2TB6N7_fastqc.zip
@@ -80,9 +98,8 @@ RawData/hisat2_index/GRCh38.genome.fa.fai
 
 5_Differential_Expression/so_gene
 5_Differential_Expression/so_transcript
+
 6_Integrative_Analysis/stringtie_merged_polyA.bed
 6_Integrative_Analysis/stringtie_merged_TSS.bed
 6_Integrative_Analysis/stringtie_merged.bed
-RawData/atlas.clusters.2.0.GRCh38.96.bed.gz
-RawData/atlas.clusters.2.0.GRCh38.96.tsv.gz
-RawData/hg38_fair_CAGE_peaks_phase1and2.bed.gz
+
