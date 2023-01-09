@@ -18,8 +18,9 @@
     cell_line=$1
 
     raw_data_dir=${course_dir}/RawData
-        sample_fwd=${raw_data_dir}/${cell_line}*R1*.fastq.gz
-        sample_bwd=${raw_data_dir}/${cell_line}*R2*.fastq.gz
+    reads_dir=${raw_data_dir}/Reads
+        sample_fwd=${reads_dir}/${cell_line}*R1*.fastq.gz
+        sample_bwd=${reads_dir}/${cell_line}*R2*.fastq.gz
     
     hisat2_index_dir=${raw_data_dir}/hisat2_index
         mkdir ${hisat2_index_dir}
