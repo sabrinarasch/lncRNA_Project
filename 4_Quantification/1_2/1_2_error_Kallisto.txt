@@ -4,8 +4,8 @@
 [index] number of k-mers: 127,326,683
 [index] number of equivalence classes: 887,736
 [quant] running in paired-end mode
-[quant] will process pair 1: /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/1_2_L3_R1_001_DnNWKUYhfc9S.fastq.gz
-                             /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/1_2_L3_R2_001_SNLaVsTQ6pwl.fastq.gz
+[quant] will process pair 1: /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/Reads/1_2_L3_R1_001_DnNWKUYhfc9S.fastq.gz
+                             /data/courses/rnaseq_course/lncRNAs/Project1/users/srasch/RawData/Reads/1_2_L3_R2_001_SNLaVsTQ6pwl.fastq.gz
 [quant] finding pseudoalignments for the reads ... done
 [quant] processed 34,391,514 reads, 31,119,480 reads pseudoaligned
 [quant] estimated average fragment length: 281.37
