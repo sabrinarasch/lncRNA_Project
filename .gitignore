@@ -6,7 +6,6 @@ RawData/polyA_atlas_cluster_GRCh38_96.bed
 RawData/hg38_liftover+new_CAGE_peaks_phase1and2.bed.gz
 RawData/atlas.clusters.2.0.GRCh38.96.bed
 RawData/reference_gtf.bed
-RawData/transcripts_prot_coding.tsv.txt
 
 RawData/hisat2_index/GRCh38.genome.1.ht2
 RawData/hisat2_index/GRCh38.genome.2.ht2
@@ -103,3 +102,4 @@ RawData/Reads/P3_L3_R2_001_xo7RBLLYYqeu.fastq.gz
 6_Integrative_Analysis/stringtie_merged_polyA.bed
 6_Integrative_Analysis/stringtie_merged_TSS.bed
 6_Integrative_Analysis/stringtie_merged.bed
+6_Integrative_Analysis/transcripts_prot_coding_from_giliane.tsv.txt
