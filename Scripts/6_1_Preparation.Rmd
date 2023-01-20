@@ -1,0 +1,80 @@
+---
+title: "6_1_Preparation"
+author: "Sabrina Rasch"
+date: "08.01.2023"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Setup
+
+```{r message=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#set working directory to Source file location
+  setwd("C:/Users/sabri/OneDrive/Desktop/HS22/RNA-sequencing/Project/Scripts/")
+
+#load packages
+  library(tidyverse)
+  library(rtracklayer)
+```
+
+# Step 6: Integrative Analysis
+
+```{r}
+#Load GTF and convert it to a data frame
+  gtf <- rtracklayer::import("../3_Assembly/stringtie_merged.gtf")
+  gtf_df <- as.data.frame(gtf)
+
+  #Making a bed file with the transcripts for the whole gtf file, select specific columns.
+    gtf_filtered <- gtf_df %>% filter(type == "transcript") %>% filter(str_detect(seqnames, "chr")) %>% select(seqnames, start, end, transcript_id, score, strand)
+      # write.table(gtf_filtered, file = "../6_Integrative_Analysis/stringtie_merged.bed", row.names = F, col.names = F, quote = F, sep = "\t")
+
+    #Preparaition for making the bed files
+      gtf_arranged <- gtf_filtered %>% arrange(strand)
+      is_plus <- which(gtf_arranged$strand == "+")
+      is_minus <- which(gtf_arranged$strand == "-")
+
+    
+  #Making a bed file for the analysis of the TSS. If the transcript is on the "+" strand we need the first coordinates, if it is on the "-" strand we need the second coordinates. We want a 100bp window.
+    TSS_plus <- gtf_arranged[is_plus,]
+      TSS_plus$start <- TSS_plus$start - 50
+      TSS_plus$end <- TSS_plus$start + 100
+    TSS_minus <- gtf_arranged[is_minus, ]
+      TSS_minus$end <- TSS_minus$end + 50
+      TSS_minus$start <- TSS_minus$end - 100
+
+    TSS_bed <- as.data.frame(rbind(TSS_plus, TSS_minus))
+    TSS_bed <- TSS_bed[order(match(TSS_bed$transcript_id, gtf_filtered$transcript_id)), ]
+      # write.table(TSS_bed, file = "../6_Integrative_Analysis/stringtie_merged_TSS.bed", row.names = F, col.names = F, quote = F, sep = "\t")
+
+  #Making a bed file for the analysis of the polyA. If the transcript is on the "+" strand we need the second coordinates, if it is on the "-" strand we need the first coordinates. We want a 100bp window.
+    polyA_plus <- gtf_arranged[is_plus,]
+      polyA_plus$end <- polyA_plus$end + 50
+      polyA_plus$start <- polyA_plus$end - 100
+    polyA_minus <- gtf_arranged[is_minus, ]
+      polyA_minus$start <- polyA_minus$start - 50
+      polyA_minus$end <- polyA_minus$start + 100
+    
+    polyA_bed <- as.data.frame(rbind(polyA_plus, polyA_minus))
+    polyA_bed <- polyA_bed[order(match(polyA_bed$transcript_id, gtf_filtered$transcript_id)), ]  
+      # write.table(polyA_bed, file = "../6_Integrative_Analysis/stringtie_merged_polyA.bed", row.names = F, col.names = F, quote = F, sep = "\t")
+
+#For the polyA analysis we need to adapt the downloaded bed file. First it was uploaded to the cluster where it was unziped and then downloaded to adapt it in R-studio.
+  polyA_bed <- as.data.frame(read.table("../6_Integrative_Analysis/atlas.clusters.2.0.GRCh38.96.bed", header = FALSE, sep="\t", stringsAsFactors=FALSE, quote=""))
+  names(polyA_bed) <- c("seqnames", "start", "end", "transcript_id", "tpm_1", "strand", "sample_percentage", "nr3_protocols", "tpm_2", "cluster_nnotation", "information")
+  polyA_bed_filtered <- polyA_bed %>% filter(str_detect(seqnames, "^[[:digit:]]+") | seqnames == "X" | seqnames == "Y")
+  polyA_bed_chr <- polyA_bed_filtered 
+  polyA_bed_chr$seqnames <- sub("^", "chr", polyA_bed_chr$seqnames )
+  # write.table(polyA_bed_chr, file = "../6_Integrative_Analysis/polyA_atlas_cluster_GRCh38_96.bed", row.names = F, col.names = F, quote = F, sep = "\t")
+
+#Load GTF and convert it to a data frame
+  annotation_gtf <- rtracklayer::import("../6_Integrative_Analysis/gencode.v21.chr_patch_hapl_scaff.annotation.gtf")
+    annotation_gtf_df <- as.data.frame(annotation_gtf)
+
+  #Making a bed file with the transcripts for the whole gtf file, select specific columns.
+    annotation_gtf_filtered <- annotation_gtf_df %>% filter(type == "transcript") %>% filter(str_detect(seqnames, "chr")) %>% select(seqnames, start, end, transcript_id, score, strand)
+      annotation_gtf_filtered$score <- rep(".", length.out = nrow(annotation_gtf_filtered))
+  # write.table(annotation_gtf_filtered, file = "../6_Integrative_Analysis/reference_gtf.bed", row.names = F, col.names = F, quote = F, sep = "\t")
+```
