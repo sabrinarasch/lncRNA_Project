@@ -25,9 +25,6 @@
         cpat_out=${bedtools_dir}/cpat_output
         mkdir ${bedtools_dir}
 
-    cpc_dir=${course_dir}/cpc
-        mkdir ${cpc_dir}
-
 #Look for the intersect of the TSS
 # bedtools intersect -a ${bedtools_dir}/stringtie_merged_TSS.bed -b ${ref_TSS_bed} -u -s > ${bedtools_dir}/TSS_intersect.tsv
     #Options entered here are:

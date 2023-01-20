@@ -1,0 +1,168 @@
+---
+title: "7_1_Summary"
+author: "Sabrina Rasch"
+date: "20.01.2023"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Setup
+
+```{r message=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#set working directory to Source file location
+  setwd("C:/Users/sabri/OneDrive/Desktop/HS22/RNA-sequencing/Project/Scripts/")
+
+#load packages
+  library(tidyverse)
+  library(rtracklayer)
+```
+
+# Load data
+
+```{r}
+#Load GTF and convert it to a data frame
+  gtf <- rtracklayer::import("../3_Assembly/stringtie_merged.gtf")
+  gtf_df <- as.data.frame(gtf)
+
+#Number of exons for a transcript
+  gtf_exons <- gtf_df %>% select(transcript_id, exon_number)
+  gtf_exons_sorted <- gtf_exons[order(gtf_exons$exon_number, decreasing = TRUE),]
+
+#log2-fold change and the q-value on transcript level
+    sleuth_wt_transcript <- read.csv(file = "../5_Differential_Expression/sleuth_wt_transcript.csv", header = TRUE)
+
+#Protein coding potential
+    prot_coding_table <- as.data.frame(read.table("../6_Integrative_Analysis/cpat_output.tsv", header = TRUE, sep="\t"))
+
+#TSS, polyA and intergenic
+  TSS_table <- as.data.frame(read.table("../6_Integrative_Analysis/TSS_intersect.tsv", header = FALSE, sep="\t"))
+  TSS_transcripts <- TSS_table[,4]
+    
+  polyA_table <- as.data.frame(read.table("../6_Integrative_Analysis/polyA_intersect.tsv", header = FALSE, sep="\t"))
+  polyA_transcripts <- polyA_table[,4]
+    
+  intergenic_table <- as.data.frame(read.table("../6_Integrative_Analysis/intergenic_intersect.tsv", header = FALSE, sep="\t"))
+  intergenic_transcripts <- intergenic_table[,4]
+```
+
+# Functions
+
+```{r}
+#Find the number of exons for a transcript
+  num_exons <- function(id){
+    return(gtf_exons_sorted$exon_number[match(id, gtf_exons_sorted$transcript_id)])
+  }
+
+#Find the log2-fold change and the q-value on transcript level
+  log2_and_qval <- function(id, test_table = sleuth_wt_transcript){
+    entry <- test_table[test_table$target_id == id,]
+    log2 <- entry$b
+    qval <- entry$qval
+    output <- c(log2, qval)
+    return(output)
+  }
+  
+#Find protein coding potential
+  prot_coding_pot <- function(id, test_table = prot_coding_table){
+    return(test_table[id,]$coding_prob)
+  }
+
+#Find if transcript has a TSS, polyA or intergenic
+  has_TSS <- function(id, test_table = TSS_transcripts){
+    return(id %in% test_table)
+  }
+  
+  has_polyA <- function(id, test_table = polyA_transcripts){
+    return(id %in% test_table)
+  }
+  
+  is_intergenic <- function(id, test_table = intergenic_transcripts){
+    return(id %in% test_table)
+  }
+```
+
+# Create result table
+
+```{r}
+#Create table and select transcripts, with columns we are interested in
+  result_table <- gtf_df %>% filter(type == "transcript")
+    result_table <- result_table %>% select(transcript_id, gene_id, gene_name, width)
+
+#Check for uniqueness of each entry
+  length(result_table$transcript_id) == length(unique(result_table$transcript_id))
+
+#Add columns we want to fill in
+  result_table[,c("Num_Exons", "log2_fold_change", "q_val", "prot_coding_pot", "TSS", "PolyA", "Intergenic")] <- NA
+    num_transcripts <- length(result_table$transcript_id)
+
+# Look up and add the values for all transcripts
+for(idx in seq(1, num_transcripts)){
+  id <- result_table$transcript_id[idx]
+  
+  result_table$Num_Exons[idx] <- num_exons(id)
+
+  test_result_table <- log2_and_qval(id)
+  result_table$log2_fold_change[idx] <- test_result_table[1]
+  result_table$q_val[idx] <- test_result_table[2]
+
+  result_table$prot_coding_pot[idx] <- prot_coding_pot(id)
+}
+
+
+# For TSS, PolyA and intergenic we only need to look up transcripts that are in those tables
+  result_table$TSS <- FALSE
+    for(t in TSS_transcripts){
+      result_table$TSS[match(t, result_table$transcript_id)] <- TRUE
+    }
+      sum(result_table$TSS) == length(TSS_transcripts)
+    
+    result_table$PolyA <- FALSE
+      for(t in polyA_transcripts){
+        result_table$PolyA[match(t, result_table$transcript_id)] <- TRUE
+      }
+        sum(result_table$PolyA) == length(polyA_transcripts)
+    
+    result_table$Intergenic <- FALSE
+      for(t in intergenic_transcripts){
+        result_table$Intergenic[match(t, result_table$transcript_id)] <- TRUE
+      }
+        sum(result_table$Intergenic) == length(intergenic_transcripts)
+```
+
+# Filter the results
+
+
+```{r}
+#Write the results into a file
+  # write.csv(result_table, file = "../7_Summary/results_all.csv", row.names = FALSE)
+    result_table <- read.csv(file = "../7_Summary/results_all.csv", header = TRUE)
+
+#Filter the results for the most interesting entries
+  width_threshold <- 200
+  log2_fold_threshold <- 2
+  q_val_threshold <- 0.025 # Because we are testing 2-sided! This mean the significance level is 0.05 
+  prot_coding_pot_threshold <- 0.364
+
+
+#For novel and annotated together
+  results_filtered <- result_table %>% filter(width >= width_threshold, prot_coding_pot <= prot_coding_pot_threshold, Num_Exons > 1, log2_fold_change < -log2_fold_threshold | log2_fold_change > log2_fold_threshold, q_val <= q_val_threshold, TSS == TRUE, PolyA == TRUE)
+    # write.csv(results_filtered, file = "../7_Summary/results_filtered.csv", row.names = FALSE)
+    results_filtered <- read.csv(file = "../7_Summary/results_filtered.csv", header = TRUE)
+
+#For novel and annotated separately
+  results_filtered_novel <- results_filtered %>% filter(is.na(gene_name))
+    write.csv(results_filtered_novel, file = "../7_Summary/results_filtered_novel.csv", row.names = FALSE)
+  results_filtered_annotated <- results_filtered %>% filter(is.na(gene_name) == FALSE)
+    write.csv(results_filtered_annotated, file = "../7_Summary/results_filtered_annotated.csv", row.names = FALSE)
+
+
+#Filter and save GTF for those transcripts
+  gtf_filtered <- gtf_df[which(gtf_df$transcript_id %in% results_filtered$transcript_id),]
+  gtf_filtered_df <- as.data.frame(gtf_filtered)
+    rtracklayer::export(gtf_filtered, "../7_Summary/stringtie_merged_filtered.gtf")
+
+
+```
