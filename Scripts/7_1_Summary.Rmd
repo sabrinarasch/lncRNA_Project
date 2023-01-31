@@ -141,7 +141,7 @@ for(idx in seq(1, num_transcripts)){
     result_table <- read.csv(file = "../7_Summary/results_all.csv", header = TRUE)
 
 #Filter the results for the most interesting entries
-  width_threshold <- 200
+  width_thresh %>% old <- 200
   log2_fold_threshold <- 2
   q_val_threshold <- 0.025 # Because we are testing 2-sided! This mean the significance level is 0.05 
   prot_coding_pot_threshold <- 0.364
@@ -154,15 +154,13 @@ for(idx in seq(1, num_transcripts)){
 
 #For novel and annotated separately
   results_filtered_novel <- results_filtered %>% filter(is.na(gene_name))
-    write.csv(results_filtered_novel, file = "../7_Summary/results_filtered_novel.csv", row.names = FALSE)
+    # write.csv(results_filtered_novel, file = "../7_Summary/results_filtered_novel.csv", row.names = FALSE)
   results_filtered_annotated <- results_filtered %>% filter(is.na(gene_name) == FALSE)
-    write.csv(results_filtered_annotated, file = "../7_Summary/results_filtered_annotated.csv", row.names = FALSE)
+    # write.csv(results_filtered_annotated, file = "../7_Summary/results_filtered_annotated.csv", row.names = FALSE)
 
 
 #Filter and save GTF for those transcripts
   gtf_filtered <- gtf_df[which(gtf_df$transcript_id %in% results_filtered$transcript_id),]
   gtf_filtered_df <- as.data.frame(gtf_filtered)
     rtracklayer::export(gtf_filtered, "../7_Summary/stringtie_merged_filtered.gtf")
-
-
 ```

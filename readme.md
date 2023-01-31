@@ -64,7 +64,7 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * RawData/Reads/P\*fastq.gz
         * RaWData/hisat2_index/GRCh38.genome.fa
         * RawData/hisat2_index/\*.[0-9].ht2
-        * 2_Mapping/GRCh38_genome.fai
+        * RawData/hisat2_index/GRCh38.genome.fa.fai
     * Output in 2_Mapping/*\*cell_line\**
         * *\*cell_line\**_error_hisat2.txt
         * *\*cell_line\**_hisat2.sam
@@ -145,14 +145,52 @@ Path to my project folder: **/data/courses/rnaseq_course/lncRNAs/Project1/users/
         * How good are the 5’ and 3’ annotations of your transcripts? What percent of your novel transcripts are protein coding?
         * How many novel “intergenic” genes have you identified?
     * Software
+        * R 4.2.2
+            * tidyverse 1.3.2
+            * rtracklayer1.58.0
+        * BEDTools 2.29.2
+        * cpat 1.2.4
     * Script
+        * 6_1_Preparation.Rmd
+        * 6_2_Integrative_Analysis.slurm
     * Input
-    * Output
-        * Statistics and plots addressing key questions
-7. ***Optional*** Prioritization
-    * How would you prioritize your data to provide her with a ranked list of candidates?
-    * Software:
-    * Script:
-    * Input: 
-    * Output: Ranked list of gene candidates
-
+        * 3_Assembly/stringtie_merged.gtf
+            * selfmade bed files from it for TSS, polyA and whole file
+        * RawData/hg38_liftover+new_CAGE_peaks_phase1and2.bed.gz
+        * RawData/polyA_atlas_cluster_GRCh38_96.bed
+        * RawData/transcriptome.fasta
+        * 6_Integrative_Analysis/Human_Hexamer.tsv
+        * 6_Integrative_Analysis/Human_logitModel.RData
+    * Output in 6_Integrative_Analysis
+        * cpat_output.r
+        * cpat_output.dat
+        * cpat_output.tsv
+        * intergenic_intersect.tsv
+        * polyA_intersect.tsv
+        * stringtie_merged_polyA.bed
+        * stringtie_merged_TSS.bed
+        * stringtie_merged.bed
+        * TSS_intersect.tsv
+7. Summary
+    * Software
+        * R 4.2.2
+            * tidyverse 1.3.2
+            * rtracklayer1.58.0
+    * Script
+        * 7_1_Summary.Rmd
+        * 7_2_Analysis.Rmd
+    * Input 
+        * stringtie_merged.gtf
+        * sleuth_wt_transcript.csv
+        * cpat_output.tsv
+        * TSS_intersect.tsv
+        * polyA_intersect.tsv
+        * intergenic_intersect.tsv
+    * Output in 7_Summary
+        * results_all.csv
+        * results_filtered.csv
+        * results_filtered_novel.csv
+        * results_filtered_annotated.csv
+        * stringtie_merged_filtered.gtf
+        * result_stats.csv
+    

@@ -25,6 +25,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #Load results
 result_table <- read.csv(file = "../7_Summary/results_all.csv", header = TRUE)
+annotated_table <- result_table[which(is.na(result_table$gene_name) == FALSE), ]
+novel_table <- result_table[which(is.na(result_table$gene_name)), ]
+
 
 #Specify parameters for filtering
   width_threshold <- 200
@@ -32,8 +35,7 @@ result_table <- read.csv(file = "../7_Summary/results_all.csv", header = TRUE)
   q_val_threshold <- 0.025 # Because we are testing 2-sided! This mean the significance level is 0.05 
   prot_coding_pot_threshold <- 0.364
   total <- nrow(result_table)
-
-
+  total_novel <- nrow(novel_table)
 ```
 
 # Analysis
@@ -44,133 +46,78 @@ result_table <- read.csv(file = "../7_Summary/results_all.csv", header = TRUE)
   unique(result_table$PolyA)
   unique(result_table$Intergenic)
 
-#Proportion novel vs. annotated
-  novel <- sum(is.na(result_table$gene_name))
-  prop_novel <- novel / total
+#Proportion novel and annotated
+  novel <- nrow(novel_table)
+    prop_novel <- novel / total
+  annotated <- nrow(annotated_table)
+    prop_annotated <- annotated / total
 
-#Proportion of long (>= 200nt) transcripts
-  long <- sum(result_table$width >= width_threshold)
-  prop_long <- long / total
-
-#Proportion single-exon vs. multi-exon
-  multi_exon <- sum(result_table$Num_Exons > 1)
-  prop_multi_exon <- multi_exon / total
-  # single_exon <- sum(result_table$Num_Exons == 1)
-  # prop_single_exon <- single_exon / total
-
-
-#Proportion outside the log2_fold_change threshold; excluded are the entries with NA
-  high_fold <- sum(result_table$log2_fold_change < -log2_fold_threshold | result_table$log2_fold_change > log2_fold_threshold, na.rm = TRUE)
-  
-  low_fold <- sum(result_table$log2_fold_change >= -log2_fold_threshold & result_table$log2_fold_change <= log2_fold_threshold, na.rm = TRUE)
-  
-    total_evaluated_log2_fold <- high_fold + low_fold
-      prop_high_fold <- high_fold / total_evaluated_log2_fold
-
-#Proportion significant vs. non-significant; excluded are the entries with NA
-  significant <- sum(result_table$q_val <= q_val_threshold, na.rm = TRUE)
-  non_significant <- sum(result_table$q_val > q_val_threshold, na.rm = TRUE)
-    total_evaluated_qval <- significant + non_significant
-      prop_significant <- significant / total_evaluated_qval
+#Proportion single-exon
+  single_exon <- sum(result_table$Num_Exons == 1)
+    prop_single_exon <- single_exon / total
+  single_exon_novel <- sum(novel_table$Num_Exons == 1)
+    prop_single_exon_novel <- single_exon_novel / total_novel
 
 #Proportion coding vs. noncoding
   non_coding <- sum(result_table$prot_coding_pot <= prot_coding_pot_threshold)
     prop_non_coding <- non_coding / total
+  non_coding_novel <- sum(novel_table$prot_coding_pot <= prot_coding_pot_threshold)
+    prop_non_coding_novel <- non_coding_novel / total_novel
 
 #Proportion TSS
   TSS <- sum(result_table$TSS)
     prop_TSS <- TSS / total
+  TSS_novel <- sum(novel_table$TSS)
+    prop_TSS_novel <- TSS_novel / total_novel
 
 #Proportion polyA
   polyA <- sum(result_table$PolyA)
     prop_polyA <- polyA / total
+  polyA_novel <- sum(novel_table$PolyA)
+    prop_polyA_novel <- polyA_novel / total_novel
 
 #Proportion "intergenic"
   intergenic <- sum(result_table$Intergenic)
     prop_intergenic <- intergenic / total
+  intergenic_novel <- sum(novel_table$Intergenic)
+    prop_intergenic_novel <- intergenic_novel / total_novel
+    
+#Proportion of long (>= 200nt) transcripts
+  long <- sum(result_table$width >= width_threshold)
+    prop_long <- long / total
+  long_novel <- sum(novel_table$width >= width_threshold)
+    prop_long_novel <- long_novel / total_novel
 ```
 
 # Summarise and save
 
 ```{r}
 #Create one result table
-  result_stats <- c(prop_novel, prop_long, prop_multi_exon, prop_high_fold, prop_significant, prop_non_coding, prop_TSS, prop_polyA, prop_intergenic)
-  result_stats_perc <- result_stats * 100
-    result_table_stats <- as.data.frame(rbind(result_stats, result_stats_perc))
-    names(result_table_stats) <- c("prop_novel", "prop_long", "prop_multi_exon", "prop_high_fold", "prop_significant", "prop_non_coding", "prop_TSS", "prop_polyA", "prop_intergenic")
+  result_stats <- c(total, single_exon, non_coding, TSS, polyA, intergenic, long)
+  novel_stats <- c(total_novel, single_exon_novel, non_coding_novel, TSS_novel, polyA_novel, intergenic_novel, long_novel)
+  annotated_stats <- result_stats - novel_stats
+
+  result_table_stats <- as.data.frame(rbind(result_stats, novel_stats, annotated_stats))
+    names(result_table_stats) <- c("total", "single_exon", "non_coding", "TSS", "polyA", "intergenic", "long")
       # write.csv(result_table_stats, "../7_Summary/result_stats.csv", row.names = FALSE)
-      result_table_stats <- read.csv("../7_Summary/result_stats.csv", row.names = FALSE)
+      result_table_stats <- read.csv("../7_Summary/result_stats.csv")
 ```
 
-# Testing
+# Proportions
 
 ```{r}
-#Functions used to quantify
-  num <- function(df){
-    return(nrow(df))
-  }
-  
-  prop <- function(df){
-    return(num(df) / total)
-  }
-  
-  perc <- function(df){
-    return(100 * prop(df))
-  }
-  
-#Functions used to filter (potentially consecutively...)
-  novel <- function(df){
-    filtered <- df %>% filter(is.na(gene_name))
-    return(filtered)
-  }
-  
-  long <- function(df){
-    filtered <- df %>% filter(width >= width_threshold)
-    return(filtered)
-  }
-  
-  multi_exon <- function(df){
-    filtered <- df %>% filter(Num_Exons > 1)
-    return(filtered)
-  }
-  
-  high_fold <- function(df){
-    filtered <- df %>% filter(log2_fold_change < -log2_fold_threshold | log2_fold_change > log2_fold_threshold, na.rm = TRUE)
-    return(filtered)
-  }
-  
-  significant <- function(df){
-    filtered <- df %>% filter(q_val <= q_val_threshold, na.rm = TRUE)
-    return(filtered)
-  }
-  
-  non_coding <- function(df){
-    filtered <- df %>% filter(prot_coding_pot <= prot_coding_pot_threshold)
-    return(filtered)
-  }
-  
-  tss <- function(df){
-    filtered <- df %>% filter(TSS)
-    return(filtered)
-  }
-  
-  polya <- function(df){
-    filtered <- df %>% filter(PolyA)
-    return(filtered)
-  }
-  
-  intergenic <- function(df){
-    filtered <- df %>% filter(Intergenic)
-    return(filtered)
-  }
+total <- result_table_stats[1, 1]
+total_novel <- result_table_stats[2, 1]
+total_annotated <- result_table_stats[3, 1]
+  perc_novel <- (100 / total) * total_novel
+  perc_annotated <- (100 / total) * total_annotated
 
-# NOTE: if you use high_fold or significant with prop or perc, you want to use the corrected total that excludes entries that have NA in those columns!
-  total <- nrow(result_table)
-  total <- total - sum(is.na(result_table$log2_fold_change))
-
-  test <- long(non_coding(tss(polya(result_table))))
-
-
-
+result_table_stats[2, ] <- (100 / total_novel) * result_table_stats[2, ]
+result_table_stats[3, ] <- (100 / total_annotated) * result_table_stats[3, ]
+result_table_stats[1, ] <- (100 / total) * result_table_stats[1, ]
+result_table_stats <- round(result_table_stats, digits = 3)
+write.csv(result_table_stats, "../7_Summary/result_stats_perc.csv", row.names = FALSE)
 ```
+
+
 
